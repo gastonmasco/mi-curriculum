@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portafolio Técnico - Gaston Masco</title>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-color: #161412;
+      --bg-secondary: #1e1c1a; 
+      --text-color: #e0e0e0; 
+      --text-muted: #8b8a88;
+      --accent-color: #eebc5d;
+      --card-bg: #22201d;
+      --card-border: #383430;
+      --font-main: 'Inter', sans-serif;
+    }
+    
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: var(--font-main); background-color: var(--bg-color); color: var(--text-color); padding: 2rem; }
+
+    .header { max-width: 1300px; margin: 0 auto 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--card-border); padding-bottom: 1rem; }
+    .header h1 { font-size: 1.5rem; font-weight: 700; }
+    .header h1 span { color: var(--accent-color); }
+    .back-btn { color: var(--text-muted); text-decoration: none; font-size: 0.9rem; transition: color 0.3s; }
+    .back-btn:hover { color: var(--accent-color); }
+
+    /* Filter Bar */
+    .filter-container { max-width: 1300px; margin: 0 auto 3rem; display: flex; gap: 10px; flex-wrap: wrap; }
+    .filter-btn { 
+      background: var(--bg-secondary); border: 1px solid var(--card-border); color: var(--text-muted);
+      padding: 0.5rem 1.2rem; border-radius: 20px; cursor: pointer; font-size: 0.8rem; font-weight: 500;
+      transition: all 0.3s;
+    }
+    .filter-btn:hover, .filter-btn.active { border-color: var(--accent-color); color: var(--accent-color); background: rgba(238, 188, 93, 0.05); }
+
+    /* Grid */
+    .portfolio-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 2rem; max-width: 1300px; margin: 0 auto; }
+    
+    .project-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 12px; overflow: hidden; transition: all 0.3s; display: flex; flex-direction: column; }
+    .project-card.hidden { display: none; }
+    .project-card:hover { transform: translateY(-5px); border-color: var(--accent-color); box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+    
+    .project-preview { width: 100%; height: 200px; background: #1a1816; display: flex; justify-content: center; align-items: center; position: relative; overflow: hidden; border-bottom: 1px solid var(--card-border); }
+    .project-preview img { width: 100%; height: 100%; object-fit: cover; opacity: 0.5; transition: 0.3s; }
+    .project-card:hover .project-preview img { opacity: 0.8; transform: scale(1.05); }
+    
+    .project-content { padding: 1.5rem; flex: 1; display: flex; flex-direction: column; }
+    .project-category { font-size: 0.7rem; text-transform: uppercase; color: var(--accent-color); letter-spacing: 1.5px; margin-bottom: 0.5rem; font-weight: 700; font-family: 'Fira Code', monospace; }
+    .project-title { font-size: 1.2rem; font-weight: 700; margin-bottom: 0.8rem; color: #fff; }
+    .project-desc { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1.5rem; line-height: 1.6; }
+    
+    .project-links { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: auto; }
+    .btn { padding: 0.7rem 0.5rem; border-radius: 6px; text-decoration: none; font-size: 0.75rem; font-weight: 600; transition: 0.3s; text-align: center; border: 1px solid var(--card-border); color: var(--text-color); }
+    .btn-visor { background: var(--accent-color); color: var(--bg-color); border: none; }
+    .btn:hover { filter: brightness(1.1); transform: scale(1.02); }
+
+    @media (max-width: 600px) {
+      .header { flex-direction: column; gap: 1rem; text-align: center; }
+      .portfolio-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <h1>Gaston Masco <span>//</span> Portafolio Técnico</h1>
+    <a href="index.html" class="back-btn">← Volver al CV Principal</a>
+  </header>
+
+  <div class="filter-container">
+    <button class="filter-btn active" data-filter="all">Todos</button>
+    <button class="filter-btn" data-filter="metalicas">Estructuras Metálicas</button>
+    <button class="filter-btn" data-filter="hormigon">Estructuras de Hormigón</button>
+    <button class="filter-btn" data-filter="puentes">Puentes</button>
+    <button class="filter-btn" data-filter="arquitectura">Modelado Arquitectura</button>
+    <button class="filter-btn" data-filter="instalaciones">MEP (Sanitarias/Elect/Telecom)</button>
+    <button class="filter-btn" data-filter="automatizacion">Programación & Automatización</button>
+    <button class="filter-btn" data-filter="analisis">Análisis & Diseño Estructural</button>
+  </div>
+
+  <div class="portfolio-grid" id="projectGrid">
+    
+    <!-- 1. Estructuras Metálicas -->
+    <div class="project-card" data-category="metalicas">
+      <div class="project-preview"><img src="https://via.placeholder.com/400x200/161412/eebc5d?text=Estructuras+Metálicas" alt=""></div>
+      <div class="project-content">
+        <div class="project-category">Estructuras Metálicas</div>
+        <h2 class="project-title">Diseño de Cubierta Metálica</h2>
+        <p class="project-desc">Modelado de gran luz y optimización de conexiones. Incluye despiece de perfiles y planos de taller.</p>
+        <div class="project-links">
+          <a href="#" class="btn btn-visor">Visor 3D</a>
+          <a href="#" class="btn">Planos</a>
+          <a href="#" class="btn">Imágenes</a>
+          <a href="#" class="btn">Solución</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. Estructuras de Hormigón -->
+    <div class="project-card" data-category="hormigon">
+      <div class="project-preview"><img src="https://via.placeholder.com/400x200/161412/eebc5d?text=Estructuras+Hormigón" alt=""></div>
+      <div class="project-content">
+        <div class="project-category">Estructuras de Hormigón</div>
+        <h2 class="project-title">Edificio San Antonio</h2>
+        <p class="project-desc">Modelado BIM estructural (LOD 400) con detalles de armadura de refuerzo y tablas de cuantificación.</p>
+        <div class="project-links">
+          <a href="#" class="btn btn-visor">Visor 3D</a>
+          <a href="#" class="btn">Planos</a>
+          <a href="#" class="btn">Imágenes</a>
+          <a href="#" class="btn">Solución</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. Puentes -->
+    <div class="project-card" data-category="puentes">
+      <div class="project-preview"><img src="https://via.placeholder.com/400x200/161412/eebc5d?text=Puentes" alt=""></div>
+      <div class="project-content">
+        <div class="project-category">Puentes</div>
+        <h2 class="project-title">Puente Zona 14 (Guatemala)</h2>
+        <p class="project-desc">Diseño de infraestructura vial y puentes vehiculares. Modelado de estribos y vigas post-tensadas.</p>
+        <div class="project-links">
+          <a href="#" class="btn btn-visor">Visor 3D</a>
+          <a href="#" class="btn">Planos</a>
+          <a href="#" class="btn">Imágenes</a>
+          <a href="#" class="btn">Solución</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. Modelado Arquitectura -->
+    <div class="project-card" data-category="arquitectura">
+      <div class="project-preview"><img src="https://via.placeholder.com/400x200/161412/eebc5d?text=Arquitectura" alt=""></div>
+      <div class="project-content">
+        <div class="project-category">Modelado Arquitectura</div>
+        <h2 class="project-title">Condominio Voluma</h2>
+        <p class="project-desc">Modelado arquitectónico completo para coordinación BIM, fachadas y visualización técnica.</p>
+        <div class="project-links">
+          <a href="#" class="btn btn-visor">Visor 3D</a>
+          <a href="#" class="btn">Planos</a>
+          <a href="#" class="btn">Imágenes</a>
+          <a href="#" class="btn">Solución</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5. Instalaciones -->
+    <div class="project-card" data-category="instalaciones">
+      <div class="project-preview"><img src="https://via.placeholder.com/400x200/161412/eebc5d?text=MEP+Instalaciones" alt=""></div>
+      <div class="project-content">
+        <div class="project-category">Instalaciones (MEP)</div>
+        <h2 class="project-title">Sistema Contra Incendios - Refinería</h2>
+        <p style="font-size:0.8rem; margin-bottom:1rem; color:var(--text-muted)">Sanitarias, Eléctricas y Telecom.</p>
+        <p class="project-desc">Modelado y coordinación de redes de tuberías y sistemas contra incendios en entornos industriales.</p>
+        <div class="project-links">
+          <a href="#" class="btn btn-visor">Visor 3D</a>
+          <a href="#" class="btn">Planos</a>
+          <a href="#" class="btn">Imágenes</a>
+          <a href="#" class="btn">Solución</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6. Automatización -->
+    <div class="project-card" data-category="automatizacion">
+      <div class="project-preview"><img src="https://via.placeholder.com/400x200/161412/eebc5d?text=Automatización" alt=""></div>
+      <div class="project-content">
+        <div class="project-category">Programación & Automatización</div>
+        <h2 class="project-title">Scripts Dynamo para Revit</h2>
+        <p class="project-desc">Desarrollo de herramientas personalizadas para automatizar el modelado y la gestión de datos BIM.</p>
+        <div class="project-links">
+          <a href="#" class="btn btn-visor">Código/Demo</a>
+          <a href="#" class="btn">Video</a>
+          <a href="#" class="btn">Manual</a>
+          <a href="#" class="btn">Solución</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- 7. Análisis Estructural -->
+    <div class="project-card" data-category="analisis">
+      <div class="project-preview"><img src="https://via.placeholder.com/400x200/161412/eebc5d?text=Análisis+Estructural" alt=""></div>
+      <div class="project-content">
+        <div class="project-category">Análisis & Diseño Estructural</div>
+        <h2 class="project-title">Análisis de Edificio Postesado</h2>
+        <p class="project-desc">Cálculo estructural avanzado, modelado de cargas y verificación de estados límite en elementos postesados.</p>
+        <div class="project-links">
+          <a href="#" class="btn btn-visor">Reporte</a>
+          <a href="#" class="btn">Memoria</a>
+          <a href="#" class="btn">Imágenes</a>
+          <a href="#" class="btn">Solución</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const projects = document.querySelectorAll('.project-card');
+
+    filterButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        // Active Button
+        filterButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        // Filter Logic
+        const filterValue = btn.getAttribute('data-filter');
+        projects.forEach(card => {
+          if (filterValue === 'all' || card.getAttribute('data-category') === filterValue) {
+            card.classList.remove('hidden');
+          } else {
+            card.classList.add('hidden');
+          }
+        });
+      });
+    });
+  </script>
+
+</body>
+</html>
