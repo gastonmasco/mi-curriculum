@@ -9,6 +9,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   <style>
     /* VARIABLES DE DISEÑO */
@@ -114,7 +117,8 @@
 
     .achievements-title { font-size: 0.75rem; text-transform: uppercase; color: var(--accent-color); font-weight: 700; letter-spacing: 1px; }
     .achievements-list { display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
-    .achieve-badge { background: var(--bg-secondary); width: 32px; height: 32px; display: flex; justify-content: center; align-items: center; border-radius: 50%; font-size: 1rem; border: 1px solid var(--card-border); }
+    .achieve-badge { background: var(--bg-secondary); width: 45px; height: 45px; display: flex; justify-content: center; align-items: center; border-radius: 50%; font-size: 1.5rem; border: 1px solid var(--card-border); transition: transform 0.3s; }
+    .achieve-badge:hover { transform: scale(1.1); border-color: var(--accent-color); }
 
     .profile-right { width: 250px; display: flex; flex-direction: column; gap: 2rem; }
     .activity-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 3px; margin-top: 8px; }
@@ -183,24 +187,41 @@
 
     /* PRINT */
     @media print {
-      body { background: #fff !important; color: #000 !important; font-size: 10pt; }
-      .navbar, .scroll-progress, #particleCanvas, .nav-toggle, .xp-bar-container, .achievements-title, .achievements-list, .activity-grid, .mac-header, .cursor, .hero-skill-blocks, .footer, .btn, .profile-card { display: none !important; }
+      @page { size: legal; margin: 0.4cm; }
+      body { background: #fff !important; color: #000 !important; font-size: 8.8pt; line-height: 1.1; margin: 0 !important; padding: 0 !important; }
+      .navbar, .scroll-progress, #particleCanvas, .nav-toggle, .xp-bar-container, .achievements-title, .achievements-list, .activity-grid, .mac-header, .cursor, .hero-skill-blocks, .footer, .btn, .profile-card, #contact { display: none !important; }
       .container { max-width: 100% !important; padding: 0 !important; margin: 0 !important; }
-      .section { padding: 1.5rem 0 !important; min-height: auto !important; display: block !important; page-break-inside: avoid; }
-      .card { background: transparent !important; border: none !important; padding: 0 !important; margin-bottom: 1rem !important; box-shadow: none !important; transform: none !important; }
-      .section-title { font-size: 1.2rem !important; color: #000 !important; border-bottom: 2px solid #333 !important; padding-bottom: 5px !important; margin-bottom: 1rem !important; text-transform: uppercase !important; }
+      .section { padding: 0.1rem 0 !important; margin: 0 !important; min-height: auto !important; display: block !important; border: none !important; }
+      .card { background: transparent !important; border: none !important; padding: 0 !important; margin: 0 !important; box-shadow: none !important; transform: none !important; }
+      .section-title { font-size: 3.0mm !important; color: #000 !important; border-bottom: 1.5px solid #000 !important; padding-bottom: 1px !important; margin-bottom: 0.3rem !important; margin-top: 0.6rem !important; text-transform: uppercase !important; font-weight: 800 !important; }
       .section-title .icon { display: none; }
-      .print-header { display: block !important; margin-bottom: 2rem; border-bottom: 2px solid #000 !important; }
-      .timeline-header { display: flex !important; justify-content: space-between !important; align-items: baseline !important; width: 100% !important; }
-      .timeline-item { border-left: none !important; padding-left: 0 !important; margin-bottom: 1.5rem !important; }
-      .timeline-item::before { display: none; }
-      .tag { border: 1px solid #ddd !important; background: #f9f9f9 !important; color: #333 !important; font-size: 8pt !important; }
-      .skill-bar { height: 4px !important; border: 1px solid #eee !important; background: #f0f0f0 !important; }
-      .skill-bar-fill { background: #444 !important; }
-      .reveal { opacity: 1 !important; transform: none !important; }
-      h1, h2, h3 { color: #000 !important; }
-      .timeline-role { font-size: 1.1rem !important; }
-      .timeline-date { font-size: 0.9rem !important; font-weight: normal !important; color: #555 !important; }
+      .print-header { display: block !important; margin-bottom: 0.8rem !important; border-bottom: 2px solid #000 !important; padding-bottom: 0.2rem !important; }
+      .print-header-top { display: flex !important; justify-content: space-between !important; align-items: center !important; }
+      .timeline-header { display: flex !important; justify-content: space-between !important; align-items: baseline !important; width: 100% !important; margin-bottom: 0rem !important; }
+      .timeline { border: none !important; padding-left: 0 !important; margin-left: 0 !important; gap: 0.6rem !important; display: block !important; }
+      .timeline-item { border: none !important; padding-left: 0 !important; margin-bottom: 0.6rem !important; border-bottom: 1px solid #eee !important; padding-bottom: 0.4rem !important; position: static !important; }
+      .timeline-item::before, .timeline-item::after { display: none !important; }
+      .timeline-tags, .tag, .mac-header { display: none !important; }
+      .skill-bar { height: 2px !important; border: 1px solid #ddd !important; background: #f0f0f0 !important; margin-top: 0px !important; }
+      .skill-bar-fill { background: #000 !important; }
+      .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
+      h1 { font-size: 4.5mm !important; color: #000 !important; margin: 0 !important; }
+      h2 { font-size: 3.0mm !important; color: #000 !important; }
+      h3 { font-size: 3.0mm !important; color: #000 !important; }
+      .timeline-role { font-size: 3.0mm !important; font-weight: 700 !important; margin-bottom: 1px !important; }
+      .timeline-date { font-size: 3.0mm !important; font-weight: normal !important; color: #000 !important; margin-bottom: 2px !important; }
+      .timeline-company { font-size: 3.0mm !important; color: #000 !important; font-weight: 600 !important; margin-bottom: 1px !important; }
+      .timeline-desc { font-size: 2.2mm !important; margin-bottom: 0.15rem !important; line-height: 1.2 !important; color: #333 !important; }
+      .timeline-details { font-size: 2.2mm !important; color: #555 !important; margin-bottom: 0.1rem !important; }
+      .timeline-bullets { margin-bottom: 0.1rem !important; padding-left: 0rem !important; column-count: 2; column-gap: 1.5rem; list-style-type: none !important; }
+      .timeline-bullets li { margin-bottom: 0.1rem !important; font-size: 2.2mm !important; line-height: 1.1 !important; padding-left: 0 !important; color: #333 !important; }
+      .timeline-bullets li::before { display: none !important; }
+      p { font-size: 2.2mm !important; margin: 0 0 0.1rem 0 !important; color: #333 !important; }
+      #about p { font-size: 2.2mm !important; margin-bottom: 6px !important; }
+      .skills-grid { display: grid !important; grid-template-columns: repeat(3, 1fr) !important; gap: 0.5rem !important; }
+      .skill-item { margin-bottom: 0.2rem !important; }
+      #about .container, #about .grid { display: block !important; }
+      #about p { margin-bottom: 10px !important; }
     }
     .print-header { display: none; width: 100%; border-bottom: 3px solid var(--accent-color); padding-bottom: 1rem; }
     .print-header-top { display: flex; justify-content: space-between; align-items: flex-start; }
@@ -246,17 +267,12 @@
     <header class="print-header">
       <div class="print-header-top">
         <div>
-          <h1 style="font-size: 2.2rem; margin: 0;">Gaston Ricardo Masco Mamani</h1>
-          <p style="font-size: 1.1rem; opacity: 0.8; margin-top: 5px;">Ingeniero Civil | Especialista en Modelado BIM & Estructuras</p>
+          <h1 style="font-size: 1.3rem; margin: 0; color: #000;">Gaston Ricardo Masco Mamani</h1>
+          <p style="font-size: 0.8rem; margin: 0; color: #333;">Ingeniero Civil | BIM & Estructuras</p>
         </div>
         <div class="print-contact">
-          <p>mascogaston@gmail.com</p>
-          <p>69761627</p>
-          <p>El Alto, La Paz, Bolivia</p>
-          <p>
-            <a href="https://www.linkedin.com/in/gaston-ricardo-masco-b9239a198/">LinkedIn</a> · 
-            <a href="#">GitHub</a>
-          </p>
+          <p style="margin: 0; font-size: 0.75rem;">mascogaston@gmail.com | (+591) 69761627 | La Paz, Bolivia</p>
+          <p style="margin: 0; font-size: 0.65rem;">linkedin.com/in/gaston-ricardo-masco-b9239a198/</p>
         </div>
       </div>
     </header>
@@ -274,8 +290,9 @@
           </div>
           <div class="level-badge">LEVEL 9</div>
           <div class="social-links">
-            <a href="https://www.linkedin.com/in/gaston-ricardo-masco-b9239a198/" target="_blank" title="LinkedIn">in</a>
-            <a href="mailto:mascogaston@gmail.com" title="Email">@</a>
+            <a href="https://www.linkedin.com/in/gaston-ricardo-masco-b9239a198/" target="_blank" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+            <a href="https://wa.me/59169761627" target="_blank" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+            <a href="mailto:mascogaston@gmail.com" title="Email"><i class="fas fa-envelope"></i></a>
           </div>
           <div style="font-size: 0.7rem; color: var(--text-muted); font-family: var(--font-mono);">RNI: 56721</div>
         </div>
@@ -289,7 +306,7 @@
             Ingeniero Civil | // <span id="typingText"></span><span class="cursor"></span>
           </p>
           <p class="profile-desc">
-            Ingeniero Civil especializado en modelado BIM y estructuras. Experto en optimización de procesos mediante automatización (Dynamo) y diseño estructural avanzado. Con trayectoria en grandes proyectos de infraestructura y edificación en Bolivia, Guatemala y Perú.
+            Ingeniero Civil especializado en modelado BIM y estructuras. Experto en optimización de procesos mediante automatización (Dynamo) y diseño estructural avanzado. Con trayectoria en grandes proyectos de infraestructura y edificación en Bolivia, Guatemala, Perú, España y EEUU.
           </p>
           
           <div style="margin-bottom: 2.5rem; display: flex; gap: 1rem;">
@@ -297,18 +314,8 @@
             <a href="#contact" style="border: 1px solid var(--card-border); color: var(--text-color); padding: 0.8rem 2rem; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 0.9rem; transition: background 0.3s;">CONTACTAR</a>
           </div>
           
-          <div class="xp-bar-container">
-            <div class="xp-text">
-              <span>BIM Professional Mastery</span>
-              <span>92% XP</span>
-            </div>
-            <div class="xp-bar">
-              <div class="xp-fill"></div>
-            </div>
-          </div>
           
           <div>
-            <span class="achievements-title">Achievements</span>
             <div class="achievements-list">
               <span class="achieve-badge" title="Expert Structural Designer">🏗️</span>
               <span class="achieve-badge" title="BIM Mastery">📐</span>
@@ -329,20 +336,20 @@
             <span class="achievements-title">Top Skills</span>
             <div style="display: flex; flex-direction: column; margin-top: 8px;">
               <div class="hero-skill-row">
-                <span class="hero-skill-name">Modelado BIM</span>
+                <span class="hero-skill-name">Especialista en Estructuras</span>
                 <div class="hero-skill-blocks" data-level="10"></div>
               </div>
               <div class="hero-skill-row">
-                <span class="hero-skill-name">Dynamo Scripting</span>
-                <div class="hero-skill-blocks" data-level="8"></div>
+                <span class="hero-skill-name">Coordinación BIM</span>
+                <div class="hero-skill-blocks" data-level="10"></div>
               </div>
               <div class="hero-skill-row">
-                <span class="hero-skill-name">Diseño Estructural</span>
+                <span class="hero-skill-name">Modelador BIM</span>
+                <div class="hero-skill-blocks" data-level="10"></div>
+              </div>
+              <div class="hero-skill-row">
+                <span class="hero-skill-name">Agentes IA & Workflows</span>
                 <div class="hero-skill-blocks" data-level="9"></div>
-              </div>
-              <div class="hero-skill-row">
-                <span class="hero-skill-name">BIM 360 / ACC</span>
-                <div class="hero-skill-blocks" data-level="10"></div>
               </div>
             </div>
           </div>
@@ -438,6 +445,93 @@
               <li>Modelado de estructuras complejas para ciclovías y puentes</li>
               <li>Cálculo y diseño de elementos estructurales no convencionales</li>
               <li>Coordinación técnica con equipos de obra</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Nuevos Proyectos Añadidos -->
+        <div class="timeline-item reveal">
+          <div class="card">
+            <div class="timeline-date">Junio 2025 — Octubre 2025</div>
+            <h3 class="timeline-role">Ingeniería a Detalle - Sistema Recepción Combustibles</h3>
+            <div class="timeline-company">MRV Servicios S.R.L.</div>
+            <p class="timeline-desc">Diseño y servicio de ingeniería para planta Villamontes.</p>
+          </div>
+        </div>
+
+        <div class="timeline-item reveal">
+          <div class="card">
+            <div class="timeline-date">Septiembre 2024 — Octubre 2024</div>
+            <h3 class="timeline-role">Consultor Estructural y BIM</h3>
+            <div class="timeline-company">Consultor Independiente</div>
+            <p class="timeline-desc">Modelado de Puentes (Perú) y Diseño de Cubiertas de gran Luz (Santa Cruz y La Paz).</p>
+            <ul class="timeline-bullets">
+              <li>Proyectos BIOSAN: Cálculo de conexiones y fundaciones</li>
+              <li>IMCRUZ: Modelado de cubierta metálica y sistema hidrosanitario</li>
+              <li>Parque de Esferas: Coordinación de modelos en Nube de Puntos</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="timeline-item reveal">
+          <div class="card">
+            <div class="timeline-date">Agosto 2023 — Junio 2024</div>
+            <h3 class="timeline-role">Diseño y Modelado BIM de Estructuras</h3>
+            <div class="timeline-company">MRV Servicios S.R.L. / Independiente</div>
+            <p class="timeline-desc">Proyectos de infraestructura industrial y vial.</p>
+            <ul class="timeline-bullets">
+              <li>Modelos BIM 4D de 18 viaductos (Unduavi-Chulumani)</li>
+              <li>Ingeniería constructiva y montaje en Refinería Gualberto Villarroel</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="timeline-item reveal">
+          <div class="card">
+            <div class="timeline-date">Junio 2023 — Febrero 2024</div>
+            <h3 class="timeline-role">Especialista BIM en Infraestructura</h3>
+            <div class="timeline-company">CBI Contratistas Generales S.A. / Pirámide S.R.L.</div>
+            <ul class="timeline-bullets">
+              <li>Puente Vehicular Belice II (Guatemala) - Modelado BIM</li>
+              <li>Hospitales de Segundo Nivel (Villazón, Tupiza, Camiri, Monteagudo)</li>
+              <li>Centro de Operación Cuartos Villazón (Potosí)</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="timeline-item reveal">
+          <div class="card">
+            <div class="timeline-date">Agosto 2022 — Febrero 2023</div>
+            <h3 class="timeline-role">Modelado de Edificaciones y Estructuras Metálicas</h3>
+            <div class="timeline-company">Las Loritas S.R.L. / FIJY Fundación</div>
+            <ul class="timeline-bullets">
+              <li>Edificio Loritas 10 (35 niveles) y Youts Building I y II (13 niveles)</li>
+              <li>Estructuras Metálicas: 6 West End Court-Steel Stair</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="timeline-item reveal">
+          <div class="card">
+            <div class="timeline-date">Febrero 2020 — Febrero 2022</div>
+            <h3 class="timeline-role">Ingeniería Estructural y BIM</h3>
+            <div class="timeline-company">Enmarco AEC Project / Proyecto de Grado</div>
+            <ul class="timeline-bullets">
+              <li>Escuela Pública Felipe Guaman Poma de Ayala (Ayacucho - PERÚ)</li>
+              <li>Tesis de Grado: Análisis y Modelado BIM Edificio San Antonio (100/100)</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="timeline-item reveal">
+          <div class="card">
+            <div class="timeline-date">Agosto 2019 — Octubre 2021</div>
+            <h3 class="timeline-role">Diseño de Estructuras e Infraestructura Vial</h3>
+            <div class="timeline-company">Independiente (Colab. Ronald Lucio Sócrates Ruiz Velasco)</div>
+            <ul class="timeline-bullets">
+              <li>Ciudadela Judicial de Sucre (TSJ, TCP, TAA, FGE)</li>
+              <li>Puentes: Zona 14 (Guatemala) y Puente Guenda (Santa Cruz)</li>
+              <li>Condominio Voluma (Vega Aguirre Consultores)</li>
             </ul>
           </div>
         </div>
@@ -567,16 +661,22 @@
       <h2 class="section-title"><span class="icon">06.</span> Contacto</h2>
       <div class="contact-grid">
         <div class="card contact-item reveal">
-          <div class="contact-icon">✉</div>
-          <a href="mailto:mascogaston@gmail.com" class="contact-value">mascogaston@gmail.com</a>
+          <a href="mailto:mascogaston@gmail.com" class="contact-link" style="text-decoration: none; color: inherit; width: 100%;">
+            <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+            <div class="contact-value">mascogaston@gmail.com</div>
+          </a>
         </div>
         <div class="card contact-item reveal">
-          <div class="contact-icon">📱</div>
-          <a href="tel:69761627" class="contact-value">+591 69761627</a>
+          <a href="https://wa.me/59169761627" target="_blank" class="contact-link" style="text-decoration: none; color: inherit; width: 100%;">
+            <div class="contact-icon" style="color: #25D366;"><i class="fab fa-whatsapp"></i></div>
+            <div class="contact-value">+591 69761627</div>
+          </a>
         </div>
         <div class="card contact-item reveal">
-          <div class="contact-icon">🌐</div>
-          <a href="https://www.linkedin.com/in/gaston-ricardo-masco-b9239a198/" class="contact-value">LinkedIn Profile</a>
+          <a href="https://www.linkedin.com/in/gaston-ricardo-masco-b9239a198/" target="_blank" class="contact-link" style="text-decoration: none; color: inherit; width: 100%;">
+            <div class="contact-icon" style="color: #0077b5;"><i class="fab fa-linkedin"></i></div>
+            <div class="contact-value">Gaston Masco</div>
+          </a>
         </div>
       </div>
     </div>

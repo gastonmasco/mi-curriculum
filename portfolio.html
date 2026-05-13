@@ -9,6 +9,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   <style>
     :root {
@@ -65,7 +68,54 @@
       .header { flex-direction: column; gap: 1rem; text-align: center; }
       .portfolio-grid { grid-template-columns: 1fr; }
     }
+
+    /* Modal Premium Gallery */
+    .modal {
+      display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%;
+      background-color: rgba(10, 9, 8, 0.95); backdrop-filter: blur(15px);
+      justify-content: center; align-items: center; opacity: 0; transition: opacity 0.3s ease;
+    }
+    .modal.show { display: flex; opacity: 1; }
+    .modal-content {
+      position: relative; width: 90%; max-width: 1100px;
+      display: flex; flex-direction: column; align-items: center;
+    }
+    .close-modal {
+      position: absolute; top: -50px; right: 0; color: var(--text-color);
+      font-size: 2rem; cursor: pointer; transition: color 0.3s;
+    }
+    .close-modal:hover { color: var(--accent-color); }
+    
+    /* Doc Viewer Specific */
+    .doc-viewer-container {
+      width: 100%; height: 80vh; background: #fff; border-radius: 12px; overflow-y: auto;
+      padding: 20px; color: #000;
+    }
+    #docRender { width: 100%; min-height: 100%; }
+    
+    .gallery-main { width: 100%; height: 60vh; display: flex; justify-content: center; align-items: center; margin-bottom: 20px; }
+    .gallery-main img { max-width: 100%; max-height: 100%; object-fit: contain; border-radius: 12px; border: 1px solid var(--card-border); box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
+    
+    .gallery-thumbs {
+      display: flex; gap: 10px; overflow-x: auto; width: 100%; padding: 10px 0;
+      scrollbar-width: thin; scrollbar-color: var(--accent-color) transparent;
+    }
+    .gallery-thumbs::-webkit-scrollbar { height: 4px; }
+    .gallery-thumbs::-webkit-scrollbar-thumb { background: var(--accent-color); border-radius: 10px; }
+    
+    .thumb-item {
+      width: 100px; height: 60px; flex-shrink: 0; border-radius: 4px; overflow: hidden;
+      cursor: pointer; border: 2px solid transparent; opacity: 0.6; transition: 0.3s;
+    }
+    .thumb-item.active { border-color: var(--accent-color); opacity: 1; }
+    .thumb-item img { width: 100%; height: 100%; object-fit: cover; }
+    
+    .gallery-info { margin-top: 15px; color: var(--text-muted); font-family: 'Fira Code', monospace; font-size: 0.8rem; }
   </style>
+
+  <!-- Docx Preview Libraries -->
+  <script src="https://unpkg.com/jszip/dist/jszip.min.js"></script>
+  <script src="https://unpkg.com/docx-preview/dist/docx-preview.js"></script>
 </head>
 <body>
 
@@ -77,93 +127,91 @@
   <div class="filter-container">
     <button class="filter-btn active" data-filter="all">Todos</button>
     <button class="filter-btn" data-filter="metalicas">Estructuras Metálicas</button>
-    <button class="filter-btn" data-filter="hormigon">Estructuras de Hormigón</button>
+    <button class="filter-btn" data-filter="hormigon">Hormigón Armado</button>
     <button class="filter-btn" data-filter="puentes">Puentes</button>
-    <button class="filter-btn" data-filter="arquitectura">Modelado Arquitectura</button>
-    <button class="filter-btn" data-filter="instalaciones">MEP (Sanitarias/Elect/Telecom)</button>
-    <button class="filter-btn" data-filter="automatizacion">Programación & Automatización</button>
-    <button class="filter-btn" data-filter="analisis">Análisis & Diseño Estructural</button>
+    <button class="filter-btn" data-filter="arquitectura">Reformas & Nube de Puntos</button>
+    <button class="filter-btn" data-filter="analisis">Cálculos & Diseños</button>
+    <button class="filter-btn" data-filter="automatizacion">Automatización</button>
   </div>
 
   <div class="portfolio-grid" id="projectGrid">
     
-    <!-- 1. Estructuras Metálicas -->
+    <!-- 1. Estructuras Metálicas - Plataformas -->
     <div class="project-card" data-category="metalicas">
-      <div class="project-preview"><img src="https://via.placeholder.com/400x200/161412/eebc5d?text=Estructuras+Metálicas" alt=""></div>
+      <div class="project-preview">
+        <img src="ESTRUCTURAS METALICAS/PLATAFORMAS Y SOPORTES/png-1778695315852-01.png" alt="Plataformas Metálicas" onerror="this.src='https://via.placeholder.com/400x200/161412/eebc5d?text=Estructuras+Metálicas'">
+      </div>
       <div class="project-content">
         <div class="project-category">Estructuras Metálicas</div>
-        <h2 class="project-title">Diseño de Cubierta Metálica</h2>
-        <p class="project-desc">Modelado de gran luz y optimización de conexiones. Incluye despiece de perfiles y planos de taller.</p>
-        <div class="project-links">
-          <a href="#" class="btn btn-visor">Visor 3D</a>
-          <a href="#" class="btn">Planos</a>
-          <a href="#" class="btn">Imágenes</a>
-          <a href="#" class="btn">Solución</a>
+        <h2 class="project-title">Plataformas y Soportes Industriales</h2>
+        <p class="project-desc">Modelado técnico detallado de soportes y plataformas metálicas para entornos industriales complejos.</p>
+        <div class="project-links" style="grid-template-columns: 1fr 1fr;">
+          <a href="https://autode.sk/4tmMwQn" target="_blank" class="btn btn-visor">Visor 3D</a>
+          <a href="javascript:void(0)" class="btn btn-gallery" onclick="openGallery('metalicas_plataformas')">Ver Galería (24)</a>
         </div>
       </div>
     </div>
 
-    <!-- 2. Estructuras de Hormigón -->
+    <!-- 2. Estructuras Metálicas - Torreta -->
+    <div class="project-card" data-category="metalicas">
+      <div class="project-preview">
+        <img src="ESTRUCTURAS METALICAS/TORRETA/png-1778696109055-1.png" alt="Torreta" onerror="this.src='https://via.placeholder.com/400x200/161412/eebc5d?text=Torreta+Metálica'">
+      </div>
+      <div class="project-content">
+        <div class="project-category">Estructuras Metálicas</div>
+        <h2 class="project-title">Diseño de Torreta de Telecomunicaciones</h2>
+        <p class="project-desc">Estructura metálica optimizada para torres de comunicación, incluyendo conexiones y anclajes.</p>
+        <div class="project-links" style="grid-template-columns: 1fr 1fr;">
+          <a href="https://autode.sk/4cvpmQH" target="_blank" class="btn btn-visor">Visor 3D</a>
+          <a href="javascript:void(0)" class="btn btn-gallery" onclick="openGallery('metalicas_torreta')">Ver Galería (3)</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. Hormigón Armado -->
     <div class="project-card" data-category="hormigon">
-      <div class="project-preview"><img src="https://via.placeholder.com/400x200/161412/eebc5d?text=Estructuras+Hormigón" alt=""></div>
+      <div class="project-preview">
+        <img src="HORMIGON ARMADO/png-1778696018812-01.png" alt="Hormigón Armado" onerror="this.src='https://via.placeholder.com/400x200/161412/eebc5d?text=Hormigón+Armado'">
+      </div>
       <div class="project-content">
         <div class="project-category">Estructuras de Hormigón</div>
-        <h2 class="project-title">Edificio San Antonio</h2>
-        <p class="project-desc">Modelado BIM estructural (LOD 400) con detalles de armadura de refuerzo y tablas de cuantificación.</p>
-        <div class="project-links">
-          <a href="#" class="btn btn-visor">Visor 3D</a>
-          <a href="#" class="btn">Planos</a>
-          <a href="#" class="btn">Imágenes</a>
-          <a href="#" class="btn">Solución</a>
+        <h2 class="project-title">Ingeniería en Hormigón Armado</h2>
+        <p class="project-desc">Modelado de estructuras de concreto reforzado con detalle de armaduras (LOD 400).</p>
+        <div class="project-links" style="grid-template-columns: 1fr 1fr;">
+          <a href="https://autode.sk/4dIDqbL" target="_blank" class="btn btn-visor">Visor 3D</a>
+          <a href="javascript:void(0)" class="btn btn-gallery" onclick="openGallery('hormigon_armado')">Ver Galería (15)</a>
         </div>
       </div>
     </div>
 
-    <!-- 3. Puentes -->
+    <!-- 4. Puentes (Guatemala) -->
     <div class="project-card" data-category="puentes">
-      <div class="project-preview"><img src="https://via.placeholder.com/400x200/161412/eebc5d?text=Puentes" alt=""></div>
+      <div class="project-preview">
+        <img src="PUENTES/CBI-PTG-PIL0-MO-01/0009.png" alt="Puente Guatemala" onerror="this.src='https://via.placeholder.com/400x200/161412/eebc5d?text=Puente+Guatemala'">
+      </div>
       <div class="project-content">
-        <div class="project-category">Puentes</div>
-        <h2 class="project-title">Puente Zona 14 (Guatemala)</h2>
-        <p class="project-desc">Diseño de infraestructura vial y puentes vehiculares. Modelado de estribos y vigas post-tensadas.</p>
-        <div class="project-links">
-          <a href="#" class="btn btn-visor">Visor 3D</a>
-          <a href="#" class="btn">Planos</a>
-          <a href="#" class="btn">Imágenes</a>
-          <a href="#" class="btn">Solución</a>
+        <div class="project-category">Puentes & Infraestructura</div>
+        <h2 class="project-title">Proyecto Vial - Guatemala</h2>
+        <p class="project-desc">Modelado avanzado de puentes vehiculares. Incluye diseño de infraestructura y superestructura.</p>
+        <div class="project-links" style="grid-template-columns: 1fr 1fr;">
+          <a href="https://autode.sk/4tLbZ5E" target="_blank" class="btn btn-visor">Visor 3D</a>
+          <a href="javascript:void(0)" class="btn btn-gallery" onclick="openGallery('guatemala')">Ver Galería (11)</a>
         </div>
       </div>
     </div>
 
-    <!-- 4. Modelado Arquitectura -->
+    <!-- 5. Reformas & Nube de Puntos -->
     <div class="project-card" data-category="arquitectura">
-      <div class="project-preview"><img src="https://via.placeholder.com/400x200/161412/eebc5d?text=Arquitectura" alt=""></div>
+      <div class="project-preview">
+        <img src="REFORMAS NUBE DE PUNTOS/ARQ_NUBE.jpg" alt="Nube de Puntos" onerror="this.src='https://via.placeholder.com/400x200/161412/eebc5d?text=Nube+de+Puntos'">
+      </div>
       <div class="project-content">
         <div class="project-category">Modelado Arquitectura</div>
-        <h2 class="project-title">Condominio Voluma</h2>
-        <p class="project-desc">Modelado arquitectónico completo para coordinación BIM, fachadas y visualización técnica.</p>
-        <div class="project-links">
-          <a href="#" class="btn btn-visor">Visor 3D</a>
-          <a href="#" class="btn">Planos</a>
-          <a href="#" class="btn">Imágenes</a>
-          <a href="#" class="btn">Solución</a>
-        </div>
-      </div>
-    </div>
-
-    <!-- 5. Instalaciones -->
-    <div class="project-card" data-category="instalaciones">
-      <div class="project-preview"><img src="https://via.placeholder.com/400x200/161412/eebc5d?text=MEP+Instalaciones" alt=""></div>
-      <div class="project-content">
-        <div class="project-category">Instalaciones (MEP)</div>
-        <h2 class="project-title">Sistema Contra Incendios - Refinería</h2>
-        <p style="font-size:0.8rem; margin-bottom:1rem; color:var(--text-muted)">Sanitarias, Eléctricas y Telecom.</p>
-        <p class="project-desc">Modelado y coordinación de redes de tuberías y sistemas contra incendios en entornos industriales.</p>
-        <div class="project-links">
-          <a href="#" class="btn btn-visor">Visor 3D</a>
-          <a href="#" class="btn">Planos</a>
-          <a href="#" class="btn">Imágenes</a>
-          <a href="#" class="btn">Solución</a>
+        <h2 class="project-title">Reformas sobre Nube de Puntos</h2>
+        <p class="project-desc">Levantamiento y remodelación arquitectónica a partir de escaneo láser y nubes de puntos.</p>
+        <div class="project-links" style="grid-template-columns: 1fr 1fr;">
+          <a href="https://autode.sk/48mgn39" target="_blank" class="btn btn-visor">Visor 3D</a>
+          <a href="javascript:void(0)" class="btn btn-gallery" onclick="openGallery('nube_puntos')">Ver Galería (8)</a>
         </div>
       </div>
     </div>
@@ -175,34 +223,241 @@
         <div class="project-category">Programación & Automatización</div>
         <h2 class="project-title">Scripts Dynamo para Revit</h2>
         <p class="project-desc">Desarrollo de herramientas personalizadas para automatizar el modelado y la gestión de datos BIM.</p>
-        <div class="project-links">
-          <a href="#" class="btn btn-visor">Código/Demo</a>
-          <a href="#" class="btn">Video</a>
-          <a href="#" class="btn">Manual</a>
-          <a href="#" class="btn">Solución</a>
+        <div class="project-links" style="grid-template-columns: 1fr;">
+          <span style="font-size: 0.8rem; color: var(--text-muted); font-style: italic;">Próximamente: Demos y Tutoriales</span>
         </div>
       </div>
     </div>
 
-    <!-- 7. Análisis Estructural -->
+    <!-- 7. Análisis & Cálculo -->
     <div class="project-card" data-category="analisis">
-      <div class="project-preview"><img src="https://via.placeholder.com/400x200/161412/eebc5d?text=Análisis+Estructural" alt=""></div>
+      <div class="project-preview"><img src="https://via.placeholder.com/400x200/161412/eebc5d?text=Memorias+de+Cálculo" alt=""></div>
       <div class="project-content">
-        <div class="project-category">Análisis & Diseño Estructural</div>
-        <h2 class="project-title">Análisis de Edificio Postesado</h2>
-        <p class="project-desc">Cálculo estructural avanzado, modelado de cargas y verificación de estados límite en elementos postesados.</p>
-        <div class="project-links">
-          <a href="#" class="btn btn-visor">Reporte</a>
-          <a href="#" class="btn">Memoria</a>
-          <a href="#" class="btn">Imágenes</a>
-          <a href="#" class="btn">Solución</a>
+        <div class="project-category">Cálculos & Diseños</div>
+        <h2 class="project-title">Memorias de Cálculo y Diseño</h2>
+        <p class="project-desc">Documentación técnica detallada de cálculos estructurales, incluyendo plataformas y pavimentos industriales (YPFB).</p>
+        <div class="project-links" style="grid-template-columns: 1fr 1fr;">
+          <a href="javascript:void(0)" class="btn btn-visor" onclick="openDocViewer('CALCULOS Y DISEÑOS/ISLA DE DESPACHO/YPFBL-004.25-PVMT-PC-MC-004.docx')">Visor Isla Despacho</a>
+          <a href="javascript:void(0)" class="btn" onclick="openDocViewer('CALCULOS Y DISEÑOS/PLATAFORMA/ING101-20-CIV-MC-024-A.docx')">Visor Plataforma</a>
         </div>
       </div>
     </div>
 
   </div>
 
+  <!-- Modal Galería -->
+  <div id="galleryModal" class="modal">
+    <div class="modal-content">
+      <span class="close-modal" onclick="closeGallery()">&times;</span>
+      <div class="gallery-main" id="galleryMain">
+        <!-- Main Image -->
+      </div>
+      <div class="gallery-thumbs" id="galleryThumbs">
+        <!-- Thumbnails -->
+      </div>
+      <div class="gallery-info" id="galleryInfo">
+        IMAGEN 1 / 11
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Visor de Documentos -->
+  <div id="docModal" class="modal">
+    <div class="modal-content">
+      <span class="close-modal" onclick="closeDocModal()">&times;</span>
+      <div class="doc-viewer-container">
+        <div id="docRender"></div>
+      </div>
+      <div class="gallery-info" id="docInfo">
+        CARGANDO DOCUMENTO...
+      </div>
+    </div>
+  </div>
+
+  <footer style="text-align: center; padding: 3rem 2rem; border-top: 1px solid var(--card-border); color: var(--text-muted); font-size: 0.8rem; font-family: 'Fira Code', monospace; margin-top: 4rem;">
+    <div style="display: flex; justify-content: center; gap: 30px; margin-bottom: 15px; font-size: 1.5rem;">
+      <a href="https://wa.me/59169761627" target="_blank" style="color: #25D366; transition: 0.3s;" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+      <a href="https://www.linkedin.com/in/gaston-ricardo-masco-b9239a198/" target="_blank" style="color: #0077b5; transition: 0.3s;" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+      <a href="mailto:mascogaston@gmail.com" style="color: var(--accent-color); transition: 0.3s;" title="Email"><i class="fas fa-envelope"></i></a>
+    </div>
+    <p>© 2026 Gaston Ricardo Masco Mamani · Ingeniero Civil.</p>
+  </footer>
+
   <script>
+    // Proyectos Data
+    const galleries = {
+      guatemala: {
+        title: "Proyecto Vial - Guatemala",
+        images: [
+          "PUENTES/CBI-PTG-PIL0-MO-01/0001.png",
+          "PUENTES/CBI-PTG-PIL0-MO-01/0002.png",
+          "PUENTES/CBI-PTG-PIL0-MO-01/0003.png",
+          "PUENTES/CBI-PTG-PIL0-MO-01/0004.png",
+          "PUENTES/CBI-PTG-PIL0-MO-01/0005.png",
+          "PUENTES/CBI-PTG-PIL0-MO-01/0006.png",
+          "PUENTES/CBI-PTG-PIL0-MO-01/0007.png",
+          "PUENTES/CBI-PTG-PIL0-MO-01/0008.png",
+          "PUENTES/CBI-PTG-PIL0-MO-01/0009.png",
+          "PUENTES/CBI-PTG-PIL0-MO-01/0010.png",
+          "PUENTES/CBI-PTG-PIL0-MO-01/0011.png"
+        ]
+      },
+      metalicas_plataformas: {
+        title: "Plataformas y Soportes Metálicos",
+        images: [
+          "ESTRUCTURAS METALICAS/PLATAFORMAS Y SOPORTES/png-1778695315852-01.png",
+          "ESTRUCTURAS METALICAS/PLATAFORMAS Y SOPORTES/png-1778695315852-02.png",
+          "ESTRUCTURAS METALICAS/PLATAFORMAS Y SOPORTES/png-1778695315852-03.png",
+          "ESTRUCTURAS METALICAS/PLATAFORMAS Y SOPORTES/png-1778695315852-04.png",
+          "ESTRUCTURAS METALICAS/PLATAFORMAS Y SOPORTES/png-1778695315852-05.png",
+          "ESTRUCTURAS METALICAS/PLATAFORMAS Y SOPORTES/png-1778695315852-06.png",
+          "ESTRUCTURAS METALICAS/PLATAFORMAS Y SOPORTES/png-1778695315852-07.png",
+          "ESTRUCTURAS METALICAS/PLATAFORMAS Y SOPORTES/png-1778695315852-08.png",
+          "ESTRUCTURAS METALICAS/PLATAFORMAS Y SOPORTES/png-1778695315852-09.png",
+          "ESTRUCTURAS METALICAS/PLATAFORMAS Y SOPORTES/png-1778695315852-10.png",
+          "ESTRUCTURAS METALICAS/PLATAFORMAS Y SOPORTES/png-1778695315852-11.png",
+          "ESTRUCTURAS METALICAS/PLATAFORMAS Y SOPORTES/png-1778695315852-12.png",
+          "ESTRUCTURAS METALICAS/PLATAFORMAS Y SOPORTES/png-1778695315852-13.png",
+          "ESTRUCTURAS METALICAS/PLATAFORMAS Y SOPORTES/png-1778695315852-14.png",
+          "ESTRUCTURAS METALICAS/PLATAFORMAS Y SOPORTES/png-1778695315852-15.png",
+          "ESTRUCTURAS METALICAS/PLATAFORMAS Y SOPORTES/png-1778695438427-1.png",
+          "ESTRUCTURAS METALICAS/PLATAFORMAS Y SOPORTES/png-1778695438427-2.png",
+          "ESTRUCTURAS METALICAS/PLATAFORMAS Y SOPORTES/png-1778695438427-3.png",
+          "ESTRUCTURAS METALICAS/PLATAFORMAS Y SOPORTES/png-1778695438427-4.png",
+          "ESTRUCTURAS METALICAS/PLATAFORMAS Y SOPORTES/png-1778695438427-5.png",
+          "ESTRUCTURAS METALICAS/PLATAFORMAS Y SOPORTES/png-1778695438427-6.png",
+          "ESTRUCTURAS METALICAS/PLATAFORMAS Y SOPORTES/png-1778695438427-7.png",
+          "ESTRUCTURAS METALICAS/PLATAFORMAS Y SOPORTES/png-1778695438427-8.png",
+          "ESTRUCTURAS METALICAS/PLATAFORMAS Y SOPORTES/png-1778695438427-9.png"
+        ]
+      },
+      metalicas_torreta: {
+        title: "Torreta Metálica",
+        images: [
+          "ESTRUCTURAS METALICAS/TORRETA/png-1778696109055-1.png",
+          "ESTRUCTURAS METALICAS/TORRETA/png-1778696109055-2.png",
+          "ESTRUCTURAS METALICAS/TORRETA/png-1778696109055-3.png"
+        ]
+      },
+      hormigon_armado: {
+        title: "Estructuras de Hormigón Armado",
+        images: [
+          "HORMIGON ARMADO/png-1778696018812-01.png",
+          "HORMIGON ARMADO/png-1778696018812-02.png",
+          "HORMIGON ARMADO/png-1778696018812-03.png",
+          "HORMIGON ARMADO/png-1778696018812-04.png",
+          "HORMIGON ARMADO/png-1778696018812-05.png",
+          "HORMIGON ARMADO/png-1778696018812-06.png",
+          "HORMIGON ARMADO/png-1778696018812-07.png",
+          "HORMIGON ARMADO/png-1778696018812-08.png",
+          "HORMIGON ARMADO/png-1778696018812-09.png",
+          "HORMIGON ARMADO/png-1778696018812-10.png",
+          "HORMIGON ARMADO/png-1778696018812-11.png",
+          "HORMIGON ARMADO/png-1778696018812-12.png",
+          "HORMIGON ARMADO/png-1778696018812-13.png",
+          "HORMIGON ARMADO/png-1778696018812-14.png",
+          "HORMIGON ARMADO/png-1778696018812-15.png"
+        ]
+      },
+      nube_puntos: {
+        title: "Reformas & Nube de Puntos",
+        images: [
+          "REFORMAS NUBE DE PUNTOS/ARQ_NUBE.jpg",
+          "REFORMAS NUBE DE PUNTOS/ARQ_01.png",
+          "REFORMAS NUBE DE PUNTOS/ARQ_02.png",
+          "REFORMAS NUBE DE PUNTOS/ARQ_03.png",
+          "REFORMAS NUBE DE PUNTOS/ARQ_04.png",
+          "REFORMAS NUBE DE PUNTOS/ARQ_05.png",
+          "REFORMAS NUBE DE PUNTOS/ARQ_06.png",
+          "REFORMAS NUBE DE PUNTOS/ARQ_07.png"
+        ]
+      }
+    };
+
+    let currentGallery = null;
+    let currentIndex = 0;
+
+    function openGallery(key) {
+      currentGallery = galleries[key];
+      currentIndex = 0;
+      renderGallery();
+      const modal = document.getElementById('galleryModal');
+      modal.style.display = 'flex';
+      setTimeout(() => modal.classList.add('show'), 10);
+    }
+
+    function closeGallery() {
+      const modal = document.getElementById('galleryModal');
+      modal.classList.remove('show');
+      setTimeout(() => modal.style.display = 'none', 300);
+    }
+
+    // Word Viewer Logic
+    function openDocViewer(path) {
+      const modal = document.getElementById('docModal');
+      const container = document.getElementById('docRender');
+      const info = document.getElementById('docInfo');
+      
+      container.innerHTML = '';
+      info.textContent = "CARGANDO DOCUMENTO: " + path.split('/').pop() + "...";
+      
+      modal.style.display = 'flex';
+      setTimeout(() => modal.classList.add('show'), 10);
+
+      fetch(path)
+        .then(response => response.arrayBuffer())
+        .then(buffer => {
+          docx.renderAsync(buffer, container)
+            .then(x => {
+              console.log("docx: finished");
+              info.textContent = "DOCUMENTO CARGADO: " + path.split('/').pop();
+            });
+        })
+        .catch(err => {
+          console.error(err);
+          info.textContent = "ERROR AL CARGAR EL DOCUMENTO.";
+        });
+    }
+
+    function closeDocModal() {
+      const modal = document.getElementById('docModal');
+      modal.classList.remove('show');
+      setTimeout(() => modal.style.display = 'none', 300);
+    }
+
+    function renderGallery() {
+      const main = document.getElementById('galleryMain');
+      const thumbs = document.getElementById('galleryThumbs');
+      const info = document.getElementById('galleryInfo');
+
+      // Main Image
+      main.innerHTML = `<img src="${currentGallery.images[currentIndex]}" alt="${currentGallery.title}">`;
+      
+      // Info
+      info.textContent = `PROYECTO: ${currentGallery.title.toUpperCase()} // IMAGEN ${currentIndex + 1} DE ${currentGallery.images.length}`;
+
+      // Thumbs
+      thumbs.innerHTML = '';
+      currentGallery.images.forEach((img, idx) => {
+        const thumb = document.createElement('div');
+        thumb.className = `thumb-item ${idx === currentIndex ? 'active' : ''}`;
+        thumb.innerHTML = `<img src="${img}" alt="">`;
+        thumb.onclick = () => {
+          currentIndex = idx;
+          renderGallery();
+        };
+        thumbs.appendChild(thumb);
+      });
+    }
+
+    // Cerrar con Escape
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeGallery();
+        closeDocModal();
+      }
+    });
+
     const filterButtons = document.querySelectorAll('.filter-btn');
     const projects = document.querySelectorAll('.project-card');
 
